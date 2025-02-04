@@ -13,11 +13,12 @@ const app = express();
 
 const { isAuthenticated } = require("./middleware/jwt.middleware");
 
-
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);
 
 // 👇 Start handling routes here
+
+//TODO: add back authentication to routess
 const indexRoutes = require("./routes/index.routes");
 app.use("/api", indexRoutes);
 
@@ -25,14 +26,13 @@ const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
 const recipeRoutes = require("./routes/recipe.routes");
-app.use("/api", isAuthenticated ,  recipeRoutes)
+app.use("/api", recipeRoutes);
 
 const mealdayRoutes = require("./routes/mealday.routes");
-app.use("/api",isAuthenticated ,  mealdayRoutes)
+app.use("/api", mealdayRoutes);
 
 const ingredientsRoutes = require("./routes/fridge.routes");
- app.use("/api", isAuthenticated, ingredientsRoutes)
-
+app.use("/api", ingredientsRoutes);
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
